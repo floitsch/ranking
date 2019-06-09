@@ -3,6 +3,7 @@ description: A library to compute rankings of players.
 
 version: 0.1.0
 author: Florian Loitsch <florian@loitsch.com>
+homepage: https://github.com/floitsch/ranking
 
 environment:
   sdk: '>=2.2.0 <3.0.0'
