@@ -64,20 +64,18 @@ void main() {
 
   group('Bradley Terry', () {
     test('Ping Pong', () {
-      var pingPong = BradleyTerry<String>();
-      var games = [
-        Game("Amy", "Brad"),
-        Game("Dirk", "Cindy"),
-        Game("Amy", "Cindy"),
-        Game("Dirk", "Cindy"),
-        Game("Amy", "Dirk"),
-        Game("Brad", "Cindy"),
-        Game("Dirk", "Brad"),
-      ];
-      var result = pingPong.computeRanking(games);
-      expect(result["Amy"] > result["Dirk"], isTrue);
-      expect(result["Dirk"] > result["Brad"], isTrue);
-      expect(result["Brad"] > result["Cindy"], isTrue);
+      var pingPongScores = computeBradleyTerryScores([
+        ["Amy", "Brad"],
+        ["Dirk", "Cindy"],
+        ["Amy", "Cindy"],
+        ["Dirk", "Cindy"],
+        ["Amy", "Dirk"],
+        ["Brad", "Cindy"],
+        ["Dirk", "Brad"],
+      ]);
+      expect(pingPongScores["Amy"] > pingPongScores["Dirk"], isTrue);
+      expect(pingPongScores["Dirk"] > pingPongScores["Brad"], isTrue);
+      expect(pingPongScores["Brad"] > pingPongScores["Cindy"], isTrue);
     });
 
     test('Handball', () {
@@ -203,48 +201,46 @@ void main() {
         ["Oppsal", "Glassverket", 27 - 27],
         ["Storhamar Håndball Elite", "Rælingen", 34 - 15],
       ];
-      var games = <Game>[];
+      var games = <List>[];
       for (var recorded in scraped) {
         String player1 = recorded[0];
         String player2 = recorded[1];
         int diff = recorded[2];
         if (diff == 0) continue;
         if (diff > 0) {
-          games.add(Game(player1, player2));
+          games.add([player1, player2]);
         } else {
-          games.add(Game(player2, player1));
+          games.add([player2, player1]);
         }
       }
-      var model = BradleyTerry();
-      var result = model.computeRanking(games);
+      var scores = computeBradleyTerryScores(games);
 
-      expect(roundTo3(result["Larvik"]), equals(0.624));
+      expect(roundTo3(scores["Larvik"]), equals(0.624));
       expect(
-          roundTo3(result["Vipers Kristiansand (Våg Elite)"]), equals(0.187));
-      expect(roundTo3(result["Glassverket"]), equals(0.110));
-      expect(roundTo3(result["Byåsen Elite"]), equals(0.047));
-      expect(roundTo3(result["Storhamar Håndball Elite"]), equals(0.011));
-      expect(roundTo3(result["Tertnes Håndball Elite"]), equals(0.008));
-      expect(roundTo3(result["Oppsal"]), equals(0.004));
-      expect(roundTo3(result["Sola"]), equals(0.004));
-      expect(roundTo3(result["Gjerpen HK Skien"]), equals(0.002));
-      expect(roundTo3(result["Stabæk"]), equals(0.003));
-      expect(roundTo3(result["Rælingen"]), equals(0.000));
+          roundTo3(scores["Vipers Kristiansand (Våg Elite)"]), equals(0.187));
+      expect(roundTo3(scores["Glassverket"]), equals(0.110));
+      expect(roundTo3(scores["Byåsen Elite"]), equals(0.047));
+      expect(roundTo3(scores["Storhamar Håndball Elite"]), equals(0.011));
+      expect(roundTo3(scores["Tertnes Håndball Elite"]), equals(0.008));
+      expect(roundTo3(scores["Oppsal"]), equals(0.004));
+      expect(roundTo3(scores["Sola"]), equals(0.004));
+      expect(roundTo3(scores["Gjerpen HK Skien"]), equals(0.002));
+      expect(roundTo3(scores["Stabæk"]), equals(0.003));
+      expect(roundTo3(scores["Rælingen"]), equals(0.000));
     });
 
     test('Go', () {
       // https://github.com/seanhagen/bradleyterry/blob/master/model_test.go
       var games = [
-        Game("Player 2", "Player 1"),
-        Game("Player 2", "Player 3"),
-        Game("Player 3", "Player 2"),
-        Game("Player 3", "Player 2"),
+        ["Player 2", "Player 1"],
+        ["Player 2", "Player 3"],
+        ["Player 3", "Player 2"],
+        ["Player 3", "Player 2"],
       ];
-      var model = BradleyTerry<String>();
-      var result = model.computeRanking(games);
-      expect(roundTo3(result["Player 1"]), equals(0.000));
-      expect(roundTo3(result["Player 2"]), equals(0.333));
-      expect(roundTo3(result["Player 3"]), equals(0.667));
+      var scores = computeBradleyTerryScores(games);
+      expect(roundTo3(scores["Player 1"]), equals(0.000));
+      expect(roundTo3(scores["Player 2"]), equals(0.333));
+      expect(roundTo3(scores["Player 3"]), equals(0.667));
     });
   });
 }

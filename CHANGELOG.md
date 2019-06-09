@@ -1,3 +1,3 @@
-## 0.0.1
+## 0.1.0
 Initial version.
-Basic Elo system implemented.
+Basic ELO and Bradley-Terry models implemented.
