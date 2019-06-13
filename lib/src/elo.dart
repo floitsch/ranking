@@ -39,8 +39,10 @@ class Elo<T> {
 
   /// Creates a new Elo class.
   ///
-  /// The [defaultInitialRating] is assigned as initial rating for new
-  /// players, unless they are initialized with a given rating.
+  /// The [defaultInitialRating] is assigned as initial rating for players
+  /// that haven't been seen before. Player can be added with a different
+  /// rating using [addPlayer]. If no [defaultInitialRating] is given, then
+  /// players *must* be added with [addPlayer].
   ///
   /// The [n] value determines the spread of the ratings. A difference of
   /// [n] points makes it 10 times more likely that the higher-rated player
@@ -68,9 +70,13 @@ class Elo<T> {
         _n = n,
         _kFactor = kFactor;
 
-  void addPlayer(T player, [double rating]) {
+  /// Adds a new [player] to the model.
+  ///
+  /// Adding a player is only necessary, when the model doesn't have a
+  /// default initial rating.
+  void addPlayer(T player, double rating) {
     if (_ratings.containsKey(player)) {
-      throw "player already exists";
+      throw "Player $player already exists";
     }
     _ratings[player] = rating ?? _defaultInitialRating;
   }
@@ -85,12 +91,15 @@ class Elo<T> {
   void recordResult(T player1, T player2, double score) {
     var oldRating1 = _ratings[player1];
     var oldRating2 = _ratings[player2];
-    if (oldRating1 == null) {
-      throw ArgumentError("player1 not registered: $player1");
+    if (oldRating1 == null && _defaultInitialRating == null) {
+      throw ArgumentError("Player $player1 not registered.");
     }
-    if (oldRating2 == null) {
-      throw ArgumentError("player2 not registered: $player2");
+    if (oldRating2 == null && _defaultInitialRating == null) {
+      throw ArgumentError("Player $player2 not registered.");
     }
+    oldRating1 ??= _defaultInitialRating;
+    oldRating2 ??= _defaultInitialRating;
+
     var diff = oldRating1 - oldRating2;
     var exponent = -(diff / _n);
 

@@ -10,14 +10,6 @@ void main() {
 
     test('Ping Pong', () {
       var pingPong = Elo<String>(defaultInitialRating: 100, n: 50, kFactor: 5);
-      var players = ["Amy", "Brad", "Dirk", "Cindy"];
-      players.forEach(pingPong.addPlayer);
-
-      var initialRatings = pingPong.ratings;
-      expect(initialRatings.length, equals(players.length));
-      for (var player in players) {
-        expect(initialRatings[player], equals(100));
-      }
 
       pingPong.recordResult("Amy", "Brad", 1.0);
       expect(pingPong.ratings["Amy"], equals(102.5));
@@ -37,14 +29,6 @@ void main() {
     test('Ping Pong inversed', () {
       // Same as "Ping Pong", but where the second player wins.
       var pingPong = Elo<String>(defaultInitialRating: 100, n: 50, kFactor: 5);
-      var players = ["Amy", "Brad", "Dirk", "Cindy"];
-      players.forEach(pingPong.addPlayer);
-
-      var initialRatings = pingPong.ratings;
-      expect(initialRatings.length, equals(players.length));
-      for (var player in players) {
-        expect(initialRatings[player], equals(100));
-      }
 
       pingPong.recordResult("Brad", "Amy", 0.0);
       expect(pingPong.ratings["Amy"], equals(102.5));

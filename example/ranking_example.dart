@@ -100,7 +100,6 @@ void eloExample() {
 
   var elo = Elo(defaultInitialRating: 100, n: 70, kFactor: 15);
 
-  players.forEach(elo.addPlayer);
   for (var game in games) {
     elo.recordResult(game[0], game[1], game[2]);
   }
