@@ -40,12 +40,6 @@ A simple usage example for ELO:
 import 'package:ranking/ranking.dart';
 
 main() {
-  var players = [
-    "Player 1",
-    "Player 2",
-    "Player 3"
-  ];
-
   // The game-scope (3rd column) indicates the result of the game:
   //   * 1.0: the first player won decisively.
   //   * 0.5: a draw.
@@ -69,7 +63,6 @@ main() {
       kFactor: 10
   );
 
-  players.forEach(elo.addPlayer);
   games.forEach((list) { elo.recordResult(list[0], list[1], list[2]); });
 
   var ratings = elo.ratings;

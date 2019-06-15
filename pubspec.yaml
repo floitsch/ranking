@@ -1,7 +1,7 @@
 name: ranking
 description: A library to compute rankings of players.
 
-version: 0.2.0
+version: 0.2.1
 author: Florian Loitsch <florian@loitsch.com>
 homepage: https://github.com/floitsch/ranking
 
