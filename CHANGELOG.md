@@ -1,3 +1,6 @@
+## 1.0.0
+Update the pubspec file with a better description.
+
 ## 0.2.1
 Update the README after the API change.
 

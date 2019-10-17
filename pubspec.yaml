@@ -1,7 +1,9 @@
 name: ranking
-description: A library to compute rankings of players.
+description:
+  A library to compute rankings of players.
+  Uses ELO for dynamic rankings, and Bradley-Terry for static rankings.
 
-version: 0.2.1
+version: 1.0.0
 author: Florian Loitsch <florian@loitsch.com>
 homepage: https://github.com/floitsch/ranking
 
