@@ -43,11 +43,11 @@ Map<T, double> computeBradleyTerryScores<T>(List<List<T>> games) {
   }
   int playerCount = players.length;
   var playerToIndex = <T, int>{};
-  var indexToPlayer = List<T>(playerCount);
+  var indexToPlayer = <T>[];
   var index = 0;
   for (var player in players) {
     playerToIndex[player] = index;
-    indexToPlayer[index] = player;
+    indexToPlayer.add(player);
     index++;
   }
 
