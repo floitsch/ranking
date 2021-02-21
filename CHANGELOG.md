@@ -1,3 +1,6 @@
+## 1.0.1
+Fix linting error.
+
 ## 1.0.0
 Update the pubspec file with a better description.
 
