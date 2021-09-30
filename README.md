@@ -63,7 +63,7 @@ main() {
       kFactor: 10
   );
 
-  games.forEach((list) { elo.recordResult(list[0], list[1], list[2]); });
+  games.forEach((list) { elo.recordResult(list[0], list[1], list[2] as double); });
 
   var ratings = elo.ratings;
   // The `rating` map contains a rating for each player:
