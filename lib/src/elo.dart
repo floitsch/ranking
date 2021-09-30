@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import "dart:math" as math;
+import 'dart:math' as math;
 
 /// Simplified Elo rating.
 ///
@@ -33,9 +33,9 @@ import "dart:math" as math;
 class Elo<T> {
   final double _n;
   final double _kFactor;
-  final double _defaultInitialRating;
+  final double? _defaultInitialRating;
 
-  Map<T, double> _ratings = {};
+  final Map<T, double> _ratings = {};
 
   /// Creates a new Elo class.
   ///
@@ -65,7 +65,7 @@ class Elo<T> {
   /// n = 100
   /// kFactor = 50
   /// ```
-  Elo({double defaultInitialRating, double n, double kFactor})
+  Elo({double? defaultInitialRating, required double n, required double kFactor})
       : _defaultInitialRating = defaultInitialRating,
         _n = n,
         _kFactor = kFactor;
@@ -74,11 +74,11 @@ class Elo<T> {
   ///
   /// Adding a player is only necessary, when the model doesn't have a
   /// default initial rating.
-  void addPlayer(T player, double rating) {
+  void addPlayer(T player, double? rating) {
     if (_ratings.containsKey(player)) {
-      throw "Player $player already exists";
+      throw 'Player $player already exists';
     }
-    _ratings[player] = rating ?? _defaultInitialRating;
+    _ratings[player] = rating ?? _defaultInitialRating!;
   }
 
   /// Records the result of a game.
@@ -92,13 +92,13 @@ class Elo<T> {
     var oldRating1 = _ratings[player1];
     var oldRating2 = _ratings[player2];
     if (oldRating1 == null && _defaultInitialRating == null) {
-      throw ArgumentError("Player $player1 not registered.");
+      throw ArgumentError('Player $player1 not registered.');
     }
     if (oldRating2 == null && _defaultInitialRating == null) {
-      throw ArgumentError("Player $player2 not registered.");
+      throw ArgumentError('Player $player2 not registered.');
     }
-    oldRating1 ??= _defaultInitialRating;
-    oldRating2 ??= _defaultInitialRating;
+    oldRating1 ??= _defaultInitialRating!;
+    oldRating2 ??= _defaultInitialRating!;
 
     var diff = oldRating1 - oldRating2;
     var exponent = -(diff / _n);
@@ -111,5 +111,5 @@ class Elo<T> {
   }
 
   /// Returns the current ratings for all players.
-  Map<T, double> get ratings => Map<T, double>()..addAll(_ratings);
+  Map<T, double> get ratings => <T, double>{}..addAll(_ratings);
 }

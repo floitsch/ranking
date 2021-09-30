@@ -1,3 +1,6 @@
+## 2.0.0
+Fix lints and make non-nullable aware.
+
 ## 1.0.1
 Fix linting error.
 

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import "dart:math" as math;
+import 'dart:math' as math;
 
 /// Computes the Bradley-Terry Ranking for the players in the given [games].
 ///
@@ -36,12 +36,12 @@ import "dart:math" as math;
 /// https://github.com/bjlkeng/Bradley-Terry-Model/blob/master/update_model.py
 /// https://github.com/seanhagen/bradleyterry/blob/master/model.go
 Map<T, double> computeBradleyTerryScores<T>(List<List<T>> games) {
-  var players = Set<T>();
+  var players = <T>{};
   for (var game in games) {
     players.add(game[0]);
     players.add(game[1]);
   }
-  int playerCount = players.length;
+  var playerCount = players.length;
   var playerToIndex = <T, int>{};
   var indexToPlayer = <T>[];
   var index = 0;
@@ -52,10 +52,10 @@ Map<T, double> computeBradleyTerryScores<T>(List<List<T>> games) {
   }
 
   var winsForPlayer = List.filled(playerCount, 0);
-  var playedAgainstCount = Map<int, Map<int, int>>();
+  var playedAgainstCount = <int, Map<int, int>>{};
   for (var game in games) {
-    var player1Index = playerToIndex[game[0]];
-    var player2Index = playerToIndex[game[1]];
+    var player1Index = playerToIndex[game[0]]!;
+    var player2Index = playerToIndex[game[1]]!;
     winsForPlayer[player1Index]++;
     playedAgainstCount
         .putIfAbsent(player1Index, () => {})
@@ -68,11 +68,11 @@ Map<T, double> computeBradleyTerryScores<T>(List<List<T>> games) {
   var parameterVector = List.filled(playerCount, 1.0 / playerCount);
   // The new vector is the one we update in the loop.
   var newParameterVector = parameterVector.toList(growable: false);
-  for (int i = 0; i < 10000000; i++) {
-    double sumParameters = 0.0;
-    for (int player = 0; player < playerCount; player++) {
+  for (var i = 0; i < 10000000; i++) {
+    var sumParameters = 0.0;
+    for (var player = 0; player < playerCount; player++) {
       var sum = 0.0;
-      playedAgainstCount[player].forEach((otherPlayer, count) {
+      playedAgainstCount[player]!.forEach((otherPlayer, count) {
         // TODO(florian): might be faster to use a matrix instead of a map.
         // Depends on how sparse the matrix is...
         sum += count / (parameterVector[player] + parameterVector[otherPlayer]);
@@ -82,8 +82,8 @@ Map<T, double> computeBradleyTerryScores<T>(List<List<T>> games) {
       sumParameters += newPlayerParameter;
     }
     // Scale the vector and accumulate error sum.
-    double errorSum = 0.0;
-    for (int player = 0; player < playerCount; player++) {
+    var errorSum = 0.0;
+    for (var player = 0; player < playerCount; player++) {
       var newScaledParameter = newParameterVector[player] / sumParameters;
       newParameterVector[player] = newScaledParameter;
       errorSum += math.pow(parameterVector[player] - newScaledParameter, 2);
@@ -96,8 +96,8 @@ Map<T, double> computeBradleyTerryScores<T>(List<List<T>> games) {
 
     if (errorSum < 1e-15) break;
   }
-  var result = Map<T, double>();
-  for (int i = 0; i < playerCount; i++) {
+  var result = <T, double>{};
+  for (var i = 0; i < playerCount; i++) {
     result[indexToPlayer[i]] = parameterVector[i];
   }
   return result;
