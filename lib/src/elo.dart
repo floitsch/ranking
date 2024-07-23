@@ -65,7 +65,10 @@ class Elo<T> {
   /// n = 100
   /// kFactor = 50
   /// ```
-  Elo({double? defaultInitialRating, required double n, required double kFactor})
+  Elo(
+      {double? defaultInitialRating,
+      required double n,
+      required double kFactor})
       : _defaultInitialRating = defaultInitialRating,
         _n = n,
         _kFactor = kFactor;
