@@ -3,11 +3,11 @@ description:
   A library to compute rankings of players.
   Uses ELO for dynamic rankings, and Bradley-Terry for static rankings.
 
-version: 2.0.0
+version: 2.0.1
 homepage: https://github.com/floitsch/ranking
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.12.0 <4.0.0'
 
 dev_dependencies:
   lints: ^1.0.0
